@@ -13,32 +13,35 @@ public class Main {
         float interestRate = 0F;
         int period = 0;
 
-        while (principle == 0) {
+        while (true) {
             System.out.print("Principle ($1K - $1M): ");
             int input = scanner.nextInt();
-            if (input < 1000) {
-                System.out.println("Please enter a value between or equal to 1,000 and 1,000,000");
-            } else {
+            if (input >= 1000 && input <= 1_000_000) {
                 principle = input;
+                break;
+            } else {
+                System.out.println("Please enter a value between or equal to 1,000 and 1,000,000");
             }
         }
-        while (interestRate == 0F) {
+        while (true) {
             System.out.print("Annual Interest Rate (0-30): ");
             float input = scanner.nextFloat();
-            if (input < 0F || input > 30F) {
-                System.out.println("Please enter a value between or equal to 0 and 30");
-            } else {
+            if (input > 0F && input <= 30F) {
                 interestRate = input;
+                break;
+            } else {
+                System.out.println("Please enter a value between or equal to 0 and 30");
             }
         }
 
-        while (period == 0) {
+        while (true) {
             System.out.print("Period (years): ");
             int input = scanner.nextInt();
-            if (input < 0 || input > 30) {
-                System.out.println("Please enter a value between or equal to 0 and 30");
-            } else {
+            if (input > 0 || input <= 30) {
                 period = input;
+                break;
+            } else {
+                System.out.println("Please enter a value between or equal to 0 and 30");
             }
         }
 
