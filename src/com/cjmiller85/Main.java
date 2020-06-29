@@ -6,12 +6,14 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        int principle;
+        float annualInterest;
+        byte years;
+
         NumberFormat currency = NumberFormat.getCurrencyInstance();
         NumberFormat percent = NumberFormat.getPercentInstance();
         Scanner scanner = new Scanner(System.in);
-        int principle = 0;
-        float interestRate = 0F;
-        int period = 0;
+
 
         while (true) {
             System.out.print("Principle ($1K - $1M): ");
@@ -25,32 +27,38 @@ public class Main {
         }
         while (true) {
             System.out.print("Annual Interest Rate (0-30): ");
-            float input = scanner.nextFloat();
-            if (input > 0F && input <= 30F) {
-                interestRate = input;
+            annualInterest = scanner.nextFloat();
+            if (annualInterest > 0F && annualInterest <= 30F) {
                 break;
-            } else {
-                System.out.println("Please enter a value between or equal to 0 and 30");
             }
+            System.out.println("Please enter a value between or equal to 0 and 30");
+
         }
 
         while (true) {
             System.out.print("Period (years): ");
-            int input = scanner.nextInt();
-            if (input > 0 || input <= 30) {
-                period = input;
+            years = scanner.nextByte();
+            if (years > 0 && years <= 30)
                 break;
-            } else {
-                System.out.println("Please enter a value between or equal to 0 and 30");
-            }
+            System.out.println("Please enter a value between or equal to 0 and 30");
         }
 
-        float monthlyInterestRate = interestRate / 100 / 12;
-        int payments = period * 12;
+        double mortgage = calculateMortgage(principle, annualInterest, years);
+        String mortgageFormatted = NumberFormat.getCurrencyInstance().format(mortgage);
+        System.out.println("-----------------\n" + "Mortgage is: " + mortgageFormatted);
+    }
 
-        String mortgage = currency.format(principle
-                * (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, payments))
-                / (Math.pow(1 + monthlyInterestRate, payments) - 1));
-        System.out.println("-----------------\n" + "Mortgage is: " + mortgage);
+    public static double calculateMortgage(int principle, float annualInterest, byte years) {
+        final int PERCENT = 100;
+        final int MONTHS_IN_YEAR = 12;
+        short numberOfPayments = (short) (years * MONTHS_IN_YEAR);
+        float monthlyInterestRate = annualInterest / PERCENT / MONTHS_IN_YEAR;
+
+
+        double mortgage = principle
+                * (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments))
+                / (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
+
+        return mortgage;
     }
 }
